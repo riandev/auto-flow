@@ -1,8 +1,8 @@
 import React, {createContext, useEffect, useState} from "react";
 
-const DataContext = createContext({});
-
-export const DataProvider = ({children}) => {
+// const DataContext = createContext({});
+export const DataContext = React.createContext();
+ const DataProvider = ({children}) => {
 const [user,setUser] = React.useState("");
 const [logged,setLogged] = React.useState(false);
 
@@ -15,4 +15,4 @@ const [logged,setLogged] = React.useState(false);
     );
 };
 
-export default DataContext;
+export default DataProvider;
