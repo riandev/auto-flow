@@ -19,7 +19,6 @@ export default function SignIn({ navigation }) {
   const handleSignIn = async () => {
     await setLogged(true);
     await authStorage.storeAuthToken("123");
-    navigation.replace("Scan");
   };
   return (
     <NativeSafeAreaView>
