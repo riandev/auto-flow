@@ -5,7 +5,8 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 export default function Scan ({navigation}) {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
-    const [text, setText] = useState('Not yet scanned')
+    const [text, setText] = useState('Not yet scanned');
+    const [scanClicked,setScanClicked] = useState(false);
 
     const askForCameraPermission = () => {
         (async () => {
@@ -40,25 +41,33 @@ export default function Scan ({navigation}) {
                 <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
             </View>)
     }
+
+    const handleScan = async () => {
+        await setScanned(false)
+        await setScanClicked(true)
+    }
+
     const handleDetails = async () => {
             await navigation.navigate("Product")
     }
 
     return (
         <View style={styles.container}>
-            {scanned ? <Text style={styles.maintext}>{text}</Text> : <View style={styles.barcodebox}>
+            {(scanned) ? <Text style={styles.maintext}>{text}</Text> : <View style={styles.barcodebox}>
                 <BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                     style={{ height: 530, width: 530 }} />
             </View>}
 
-            {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
+            <TouchableOpacity onPress={handleScan} style={styles.buttonScan}>
+                <Text style={styles.titleScan}>Scan</Text>
+            </TouchableOpacity>
+
             {scanned && <TouchableOpacity onPress={handleDetails} style={styles.button}>
                 <Text style={styles.title}>
                     Get Details
                 </Text>
             </TouchableOpacity>}
-
         </View>
     );
 };
@@ -80,7 +89,8 @@ const styles = StyleSheet.create({
         width: 300,
         overflow: 'hidden',
         borderRadius: 30,
-        backgroundColor: 'tomato'
+        backgroundColor: 'tomato',
+        marginBottom:20
     },
     button: {
         borderRadius:30,
@@ -94,5 +104,20 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize:16,
+    },
+    titleScan: {
+        fontSize:16,
+        color:"white",
+        fontWeight:"bold"
+    },
+    buttonScan: {
+        borderRadius:30,
+        width:165,
+        height:145,
+        alignSelf:"center",
+        backgroundColor:"#141ba2",
+        justifyContent:"center",
+        alignItems:"center",
+        marginTop:60
     }
 });

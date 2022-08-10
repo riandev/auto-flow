@@ -9,6 +9,7 @@ import Sale from "./src/screens/sale";
 import authStorage from "./src/utils/authStorage";
 import {ActivityIndicator, View} from "react-native";
 import DataProvider, {DataContext} from "./src/context/DataContext";
+import Home from "./src/screens/home";
 
 const appTheme = {
     ...DefaultTheme,
@@ -44,6 +45,7 @@ export default function App() {
                 <Stack.Navigator>
                     {user ? (
                         <>
+                            <Stack.Screen name="Home" component={Home}/>
                             <Stack.Screen name="Scan" component={Scan}/>
                             <Stack.Screen name="Product" component={ProductDetails}/>
                             <Stack.Screen name="Sale" component={Sale}/>

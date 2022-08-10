@@ -9,75 +9,10 @@ const CarouselCardItem = ({item, index}) => {
     return (
         <View>
             <View style={styles.container} key={index}>
-                <Text style={styles.header}>5G Xenon</Text>
                 <Image
                     source={{uri: item.imgUrl}}
                     style={styles.image}
                 />
-                <View style={styles.button}>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            LOCATION :
-                        </Text>
-                        <Text style={styles.title}>
-                            Shop
-                        </Text>
-                    </View>
-                    <Text style={{color:"white"}}>-------------------------------------------------</Text>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            AREA :
-                        </Text>
-                        <Text style={styles.title}>
-                            Area 1
-                        </Text>
-                    </View>
-                    <Text style={{color:"white"}}>-------------------------------------------------</Text>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            PRICE :
-                        </Text>
-                        <Text style={styles.title}>
-                            Kshs. 90.00
-                        </Text>
-                    </View>
-                    <Text style={{color:"white"}}>-------------------------------------------------</Text>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            PART NUMBER :
-                        </Text>
-                        <Text style={styles.title}>
-                            5G-2019525125
-                        </Text>
-                    </View>
-                    <Text style={{color:"white"}}>-------------------------------------------------</Text>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            STOCK :
-                        </Text>
-                        <Text style={styles.title}>
-                            60
-                        </Text>
-                    </View>
-                    <Text style={{color:"white"}}>-------------------------------------------------</Text>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            DEFECT :
-                        </Text>
-                        <Text style={styles.title}>
-                            No
-                        </Text>
-                    </View>
-                    <Text style={{color:"white"}}>-------------------------------------------------</Text>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <Text style={styles.title}>
-                            For :
-                        </Text>
-                        <Text style={styles.title}>
-                            Volkhan Gen 54525hdhduy
-                        </Text>
-                    </View>
-                </View>
             </View>
         </View>
     );
