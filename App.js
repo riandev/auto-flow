@@ -7,7 +7,7 @@ import ProductDetails from "./src/screens/productDetails";
 import Sale from "./src/screens/sale";
 
 import authStorage from "./src/utils/authStorage";
-import {ActivityIndicator, View} from "react-native";
+import {ActivityIndicator, View, StyleSheet} from "react-native";
 import DataProvider, {DataContext} from "./src/context/DataContext";
 import Home from "./src/screens/home";
 
@@ -20,45 +20,59 @@ const appTheme = {
 };
 
 const Stack = createNativeStackNavigator();
-// const AppStack = createNativeStackNavigator();
+const AppStack = createNativeStackNavigator();
 
 export default function App() {
     const Root = () => {
-        const [loading, setLoading] = React.useState(true);
+        const [loading, setLoading] = React.useState(false);
         const [user, setUser] = React.useState(false);
-        const {setLogged, logged} = React.useContext(DataContext);
+        const {setLogged, logged, userInfo, setUserInfo} = React.useContext(DataContext);
         React.useEffect(() => {
             async function getUser() {
+                setLoading(true);
                 const token = await authStorage.getAuthToken();
-                await authStorage.removeAuthToken();
-                if (token) {
+                console.log(token);
+                /*                await authStorage.removeAuthToken();*/
+                if (token !== null) {
                     setUser(true);
                     setLoading(false);
+                } else {
+                    setLoading(false);
+                    setUser(false)
                 }
             }
 
             getUser();
-        }, [logged]);
+        }, [logged, userInfo, user]);
+
+        if (loading) {
+            return (
+                <View style={[styles.container, styles.horizontal]}>
+                    <ActivityIndicator size="large" color="#00ff00"/>
+                </View>
+            );
+        }
+
+        const AppNavigator = () => {
+            return (
+                <AppStack.Navigator>
+                    <AppStack.Screen name="Home" component={Home}/>
+                    <AppStack.Screen name="Scan" component={Scan}/>
+                    <AppStack.Screen name="Product" component={ProductDetails}/>
+                    <AppStack.Screen name="Sale" component={Sale}/>
+                </AppStack.Navigator>
+            );
+        };
 
         return (
             <NavigationContainer theme={appTheme}>
-                <Stack.Navigator>
-                    {user ? (
-                        <>
-                            <Stack.Screen name="Home" component={Home}/>
-                            <Stack.Screen name="Scan" component={Scan}/>
-                            <Stack.Screen name="Product" component={ProductDetails}/>
-                            <Stack.Screen name="Sale" component={Sale}/>
-                        </>
-                    ) : (
-                        <>
-                            <Stack.Screen
-                                name="Login"
-                                component={SignIn}
-                                options={{headerShown: false}}
-                            />
-                        </>
-                    )}
+                <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName={user?"App":"Login"}>
+                    <Stack.Screen name="App" component={AppNavigator}/>
+                    <Stack.Screen
+                        name="Login"
+                        component={SignIn}
+                        options={{headerShown: false}}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         );
@@ -70,3 +84,15 @@ export default function App() {
         </DataProvider>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+    },
+});

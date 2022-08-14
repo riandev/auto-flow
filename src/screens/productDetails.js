@@ -2,7 +2,8 @@ import {View, StyleSheet, Button} from "react-native";
 import React from 'react';
 import CarouselCards from "../components/CarouselCards";
 
-export default function ProductDetails ({navigation}) {
+export default function ProductDetails ({route,navigation}) {
+    console.log(route);
     const handleRescan = async () => {
         await navigation.navigate("Scan")
     }

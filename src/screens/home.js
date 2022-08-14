@@ -1,20 +1,33 @@
 import {Text, View, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {DataContext} from "../context/DataContext";
+import authStorage from "../utils/authStorage";
 
 export default function Home ({navigation}) {
+    const { setLogged, logged,setUserInfo } = React.useContext(DataContext);
+    const handleSignOut = async () => {
+        await setUserInfo({});
+        await authStorage.removeAuthToken();
+        navigation.replace("Login")
+    }
 
     return (
-        <View style={styles.container}>
-            <View>
-                <TouchableOpacity onPress={()=>navigation.navigate("Scan")} style={styles.card}>
-                    <Text style={styles.title}>Scan</Text>
-                </TouchableOpacity>
+        <View>
+            <View style={styles.container}>
+                <View>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Scan")} style={styles.card}>
+                        <Text style={styles.title}>Scan</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.card}>
+                        <Text style={styles.title}>Return</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View>
-                <TouchableOpacity style={styles.card}>
-                    <Text style={styles.title}>Return</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={handleSignOut} style={styles.button}>
+                <Text style={styles.title2}>Logout</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -38,5 +51,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 30,
+    },
+    title2: {
+        fontSize: 16,
+    },
+    button: {
+        borderRadius: 30,
+        width: 165,
+        height: 45,
+        alignSelf: "center",
+        backgroundColor: "#FFE600",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 300,
     },
 });

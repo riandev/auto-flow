@@ -10,15 +10,19 @@ import React from "react";
 import NativeSafeAreaView from "react-native-safe-area-context/src/specs/NativeSafeAreaView";
 import { DataContext } from "../context/DataContext";
 import authStorage from "../utils/authStorage";
+import {processSignIn} from "../network/apiSignIn";
 
 export default function SignIn({ navigation }) {
-  const { setLogged, logged } = React.useContext(DataContext);
+  const { setLogged, logged,setUserInfo } = React.useContext(DataContext);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   console.log({ logged });
   const handleSignIn = async () => {
+    const response = await processSignIn(email,password);
+    await setUserInfo(response?.data?.payload);
     await setLogged(true);
-    await authStorage.storeAuthToken("123");
+    await authStorage.storeAuthToken(JSON.stringify(response?.data?.payload));
+    navigation.replace("App")
   };
   return (
     <NativeSafeAreaView>

@@ -1,6 +1,7 @@
 import {Text, View, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import {getProductDetails} from "../network/apiGetDetails";
 
 export default function Scan ({navigation}) {
     const [hasPermission, setHasPermission] = useState(null);
@@ -23,7 +24,7 @@ export default function Scan ({navigation}) {
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
-        setText(data)
+        setText(data);
         console.log('Type: ' + type + '\nData: ' + data)
     };
 
@@ -48,7 +49,14 @@ export default function Scan ({navigation}) {
     }
 
     const handleDetails = async () => {
-            await navigation.navigate("Product")
+        const data = JSON.parse(text);
+        const response = await getProductDetails(data?._id);
+        const res = {
+            name:"test",
+            id:"01"
+        }
+        console.log(response);
+        navigation.navigate("Product",{details:res})
     }
 
     return (
